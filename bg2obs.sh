@@ -17,7 +17,7 @@
 #----------------------------------------------------------------------------------
 
 # OPTIONS
-translation="WEB" # Set translation
+translation="ESV" # Set translation
 boldwords="false" # Set 'true' for bolding words of Jesus
 headers="false" # Set 'true' for including editorial headers
 
@@ -53,27 +53,12 @@ abbarray=(Gen Exod Lev Num Deut Josh Judg Ruth "1 Sam" "2 Sam" "1 Kings" "2 King
 ((next_chapter=chapter+1))
 
 # Exporting
-  export_prefix="${abbreviation}-" # Setting the first half of the filename
+  export_prefix="${book} " # Setting the first half of the filename
 
-  if (( ${chapter} < 10 )); then # Making sure single digit numbers are preceded by a 0 for proper sorting
-    #statements
-    export_number="0${chapter}"
-  else
-    export_number=${chapter}
-  fi
+  export_number=${chapter}
 
 filename=${export_prefix}$export_number # Setting the filename
 
-# Navigation in the note
-  if (( ${prev_chapter} < 10 )); then # Turning singe into double digit numbers
-    #statements
-    prev_chapter="0${prev_chapter}"
-  fi
-
-  if (( ${next_chapter} < 10 )); then # Turning singe into double digit numbers
-    #statements
-    next_chapter="0${next_chapter}"
-  fi
 
   prev_file=${export_prefix}$prev_chapter # Naming previous and next files
   next_file=${export_prefix}$next_chapter
@@ -94,13 +79,13 @@ filename=${export_prefix}$export_number # Setting the filename
   fi
 
   if ${boldwords} -eq "true" && ${headers} -eq "false"; then
-    text=$(ruby bg2md.rb -e -c -b -f -l -r -v "${translation}" ${book} ${chapter}) # This calls the 'bg2md_mod script'
+    text=$(ruby BibleGateway-to-Markdown/bg2md.rb -e -c -b -f -l -r -v "${translation}" ${book} ${chapter}) # This calls the 'bg2md_mod script'
   elif ${boldwords} -eq "true" && ${headers} -eq "true"; then
-    text=$(ruby bg2md.rb -c -b -f -l -r -v "${translation}" ${book} ${chapter}) # This calls the 'bg2md_mod script'
+    text=$(ruby BibleGateway-to-Markdown/bg2md.rb -c -b -f -l -r -v "${translation}" ${book} ${chapter}) # This calls the 'bg2md_mod script'
   elif ${boldwords} -eq "false" && ${headers} -eq "true"; then
-    text=$(ruby bg2md.rb -e -c -f -l -r -v "${translation}" ${book} ${chapter}) # This calls the 'bg2md_mod script'
+    text=$(ruby BibleGateway-to-Markdown/bg2md.rb -e -c -f -l -r -v "${translation}" ${book} ${chapter}) # This calls the 'bg2md_mod script'
   else
-    text=$(ruby bg2md.rb -e -c -f -l -r -v "${translation}" ${book} ${chapter}) # This calls the 'bg2md_mod script'
+    text=$(ruby BibleGateway-to-Markdown/bg2md.rb -e -c -f -l -r -v "${translation}" ${book} ${chapter}) # This calls the 'bg2md_mod script'
   fi
 
 
@@ -114,7 +99,7 @@ filename=${export_prefix}$export_number # Setting the filename
 
 
   # Export
-  echo -e $export >> "$filename.md"
+  echo -e $text >> "$filename.md"
 
   # Creating a folder
 
@@ -122,15 +107,15 @@ filename=${export_prefix}$export_number # Setting the filename
 
   if (( $actual_num < 10 )); then
     #statements
-    actual_num="0${actual_num}"
+    actual_num="${actual_num}"
   else
     actual_num=$actual_num
   fi
 
-  folder_name="${actual_num} - ${book}" # Setting the folder name
+  folder_name="${book}" # Setting the folder name
 
   # Creating a folder for the book of the Bible it not existing, otherwise moving new file into existing folder
-  mkdir -p "./Scripture (${translation})/${folder_name}"; mv "${filename}".md './Scripture ('"${translation}"')/'"${folder_name}"
+  mkdir -p "./${translation}/${folder_name}"; mv "${filename}".md "${translation}/${folder_name}"
 
 
 done # End of the book exporting loop
@@ -139,7 +124,7 @@ done # End of the book exporting loop
   overview_file="links: [[The Bible]]\n# ${book}\n\n[[${abbreviation}-01|Start Reading →]]"
   echo -e $overview_file >> "$book.md"
   #mkdir -p ./Scripture ("${translation}")/"${folder_name}"; mv "$book.md" './Scripture ('"${translation}"')/'"${folder_name}"
-  mv "$book.md" './Scripture ('"${translation}"')/'"${folder_name}"
+  mv "$book.md" "${translation}/${folder_name}"
 
   done
 
