@@ -5,7 +5,8 @@ do
   do
     filename=${file##*/};
     bookchapter="`echo $filename | rev | cut -c4- | rev`"
-    echo "![[${folder$bookchapter}]]" >> "${folder}/${folder:5}.md"
+    folderlength=$(expr ${#folder} - 5)
+    echo "![[${folder}${bookchapter}]]" >> "${folder}/${folder:4:${folderlength}}.md"
     echo "$folder$bookchapter.md"
     while IFS= read -r line
     do
