@@ -22,6 +22,9 @@ In order to run the scripts, we will need to install ruby. Ruby comes pre-instal
 ### Downloading BibleGateway-to-Markdown.rb
 Follow the instructions to download and set up [jgclark's BibleGateway-to-Markdown](https://github.com/jgclark/BibleGateway-to-Markdown).
 
+Note: If you are cloning this repository with git please use the `--recurse-submodules` with git to download the submodules
+*`git clone --recurse-submodules https://github.com/joebuhlig/BibleGateway-to-Obsidian.git`
+
 ## Usage
 ### 1. Navigate to the directory in which both scripts are located.
 Open terminal. Use the following command to navigate to the folder in which both scripts are located:
