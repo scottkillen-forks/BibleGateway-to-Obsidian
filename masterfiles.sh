@@ -1,18 +1,15 @@
 #!/bin/bash
-for book in ESV/*/;
+source config.sh
+for book in "${translation}"/*/;
 do
   bookname=`basename "$book"`
-  bookname="${bookname:5}"
   for chapter in "${book}"*/;
   do
     chaptername=`basename "$chapter"`
-    echo "[[$chaptername]]" >> "$book$bookname.md"
-    for verse in "${chapter}"*.md;
-    do
-      versefile=`basename "$verse"`
-      verse="`echo $versefile | rev | cut -c4- | rev`"
-      echo "$verse"
-      echo "[[$verse]]" >> "$chapter$chaptername.md"
-    done;
+    # echo $chapter
+    # echo $chaptername
+    echo "[[$chaptername]]" >> "$book$bookname-tmp.md"
+    sort -k 2n "$book$bookname-tmp.md" > "$book$bookname.md"
   done;
 done;
+find . -name *-tmp.md -exec rm -rf {} \;
