@@ -1,5 +1,6 @@
 #!/bin/bash
-for folder in ESV/*/;
+source config.sh
+for folder in "${translation}"/*/;
 do
   for file in "${folder}"*.md;
   do
