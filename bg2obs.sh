@@ -19,7 +19,7 @@
 # OPTIONS
 source config.sh
  # Cycling through the book counter, setting which book and it's maxchapter
-  for ((book_counter=0; book_counter <= book_counter_max; book_counter++))
+  for ((book_counter=0; book_counter < book_counter_max; book_counter++))
   do
 
     book=${bookarray[$book_counter]}
